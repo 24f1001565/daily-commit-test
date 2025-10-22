@@ -1,22 +1,28 @@
 name: Daily Commit - 24f1001565@ds.study.iitm.ac.in
 
+# Trigger: daily at a specific time + manual trigger
 on:
   schedule:
     - cron: '30 9 * * *'  # Daily at 09:30 UTC
-  workflow_dispatch:       # Manual trigger
+  workflow_dispatch:       # Allows manual run
 
 jobs:
   daily-commit:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout repo
       - name: Checkout repository - 24f1001565@ds.study.iitm.ac.in
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true  # ensures git push works
 
+      # Step 2: Configure git
       - name: Set up Git - 24f1001565@ds.study.iitm.ac.in
         run: |
           git config user.name "DevSync Bot"
           git config user.email "24f1001565@ds.study.iitm.ac.in"
 
+      # Step 3: Create a daily commit
       - name: Add daily commit file - 24f1001565@ds.study.iitm.ac.in
         run: |
           echo "Daily update $(date)" >> daily_update.txt
