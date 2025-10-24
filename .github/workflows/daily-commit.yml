@@ -2,30 +2,30 @@ name: Daily Commit - 24f1001565@ds.study.iitm.ac.in
 
 on:
   schedule:
-    - cron: '30 9 * * *' # Daily at 09:30 UTC
-  workflow_dispatch:
+    - cron: "15 18 * * *"  # Runs daily at 18:15 UTC
+  workflow_dispatch:        # Allows manual trigger
 
 jobs:
   daily-commit:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout with token
+      # Step 1: Checkout repository with default token
       - name: Checkout repository - 24f1001565@ds.study.iitm.ac.in
         uses: actions/checkout@v3
         with:
           persist-credentials: true
 
-      # Configure Git
+      # Step 2: Configure Git
       - name: Set up Git - 24f1001565@ds.study.iitm.ac.in
         run: |
           git config user.name "DevSync Bot"
           git config user.email "24f1001565@ds.study.iitm.ac.in"
 
-      # Add a unique daily commit file
-      - name: Add daily commit file - 24f1001565@ds.study.iitm.ac.in
+      # Step 3: Create daily update file and commit
+      - name: Create daily commit - 24f1001565@ds.study.iitm.ac.in
         run: |
-          FILENAME="daily_update_$(date +'%Y%m%d_%H%M%S').txt"
-          echo "Daily update $(date)" > $FILENAME
-          git add $FILENAME
-          git commit -m "Daily commit: $(date)" --allow-empty
+          echo "Daily update: $(date)" >> daily_update.txt
+          git add daily_update.txt
+          git commit -m "Automated daily commit: $(date)" || echo "No changes to commit"
           git push
